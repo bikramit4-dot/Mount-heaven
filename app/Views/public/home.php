@@ -25,13 +25,13 @@
   <?php endif; ?>
 </section>
 
-<!-- Value strip -->
+<!-- School stats strip -->
 <section class="strip">
   <div class="container strip-grid">
-    <div class="strip-item"><span>🎓</span><strong>Experienced Faculty</strong><small>Qualified &amp; caring teachers</small></div>
-    <div class="strip-item"><span>🏆</span><strong>Academic Excellence</strong><small>Consistent board results</small></div>
-    <div class="strip-item"><span>🧑‍🤝‍🧑</span><strong>Small Class Sizes</strong><small>Personal attention</small></div>
-    <div class="strip-item"><span>🚌</span><strong>Safe Transport</strong><small>GPS-enabled buses</small></div>
+    <div class="strip-item"><span><?= e(setting('stat_established_icon', '🏔️')) ?></span><strong><?= e(setting('stat_established', 'Since 1959')) ?></strong><small><?= e(setting('stat_established_sub', 'Years of excellence')) ?></small></div>
+    <div class="strip-item"><span><?= e(setting('stat_students_icon', '🎒')) ?></span><strong><?= e(setting('stat_students', '800+')) ?></strong><small><?= e(setting('stat_students_sub', 'Happy students')) ?></small></div>
+    <div class="strip-item"><span><?= e(setting('stat_teachers_icon', '👩‍🏫')) ?></span><strong><?= e(setting('stat_teachers', '35+')) ?></strong><small><?= e(setting('stat_teachers_sub', 'Expert teachers')) ?></small></div>
+    <div class="strip-item"><span><?= e(setting('stat_results_icon', '🏆')) ?></span><strong><?= e(setting('stat_results', '100%')) ?></strong><small><?= e(setting('stat_results_sub', 'Board results')) ?></small></div>
   </div>
 </section>
 

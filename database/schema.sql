@@ -162,7 +162,15 @@ INSERT INTO settings (`key`, `value`) VALUES
 ('youtube_url', 'https://youtube.com'),
 ('admission_open', '1'),
 ('admission_info', 'Admissions are open for Nursery to Grade X for the academic session 2026-27. Registration forms are available at the school office and can also be filled online. Limited seats — apply early!'),
-('footer_note', '© {year} Mount Heaven English School. All rights reserved.')
+('footer_note', '© {year} Mount Heaven English School. All rights reserved.'),
+('stat_established', 'Since 1959'),
+('stat_established_sub', 'Years of excellence'),
+('stat_students', '800+'),
+('stat_students_sub', 'Happy students'),
+('stat_teachers', '35+'),
+('stat_teachers_sub', 'Expert teachers'),
+('stat_results', '100%'),
+('stat_results_sub', 'Board results')
 ON DUPLICATE KEY UPDATE `key` = VALUES(`key`);
 
 INSERT INTO sliders (title, subtitle, image, button_text, button_url, sort_order, active) VALUES

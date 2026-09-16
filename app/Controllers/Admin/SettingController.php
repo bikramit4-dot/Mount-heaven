@@ -26,6 +26,16 @@ class SettingController extends AdminController
             'principal_message'     => ['Principal Message', 'textarea'],
             'principal_photo'       => ['Principal Photo', 'image'],
         ]],
+        'stats'     => ['School Stats (home page strip)', [
+            'stat_established'     => ['Year Established (e.g. Since 1959)', 'text'],
+            'stat_established_sub' => ['Established Sub-label', 'text'],
+            'stat_students'        => ['Total Students (e.g. 800+)', 'text'],
+            'stat_students_sub'    => ['Students Sub-label', 'text'],
+            'stat_teachers'        => ['Total Teachers (e.g. 35+)', 'text'],
+            'stat_teachers_sub'    => ['Teachers Sub-label', 'text'],
+            'stat_results'         => ['Board Results (e.g. 100%)', 'text'],
+            'stat_results_sub'     => ['Results Sub-label', 'text'],
+        ]],
         'contact'   => ['Contact Info', [
             'address'      => ['Address', 'textarea'],
             'phone'        => ['Phone', 'text'],
