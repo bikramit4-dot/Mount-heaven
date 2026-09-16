@@ -109,10 +109,21 @@ ul { list-style: none; }
 .hero-dots button.is-active { background: var(--accent); border-color: var(--accent); }
 
 /* ---------- Strip ---------- */
-.strip { background: var(--primary); color: #fff; padding: 1.1rem 0; }
+.strip { background: var(--primary); color: #fff; padding: 1.6rem 0; overflow: hidden; }
 .strip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; text-align: center; }
-.strip-item span { font-size: 1.7rem; display: block; }
-.strip-item strong { display: block; font-size: .95rem; }
+.strip-item {
+  opacity: 0;
+  transform: translateY(24px) scale(.96);
+  transition: opacity .6s ease, transform .6s cubic-bezier(.22,.9,.35,1.2);
+}
+.strip-item.visible { opacity: 1; transform: none; }
+.strip-item:nth-child(2) { transition-delay: .12s; }
+.strip-item:nth-child(3) { transition-delay: .24s; }
+.strip-item:nth-child(4) { transition-delay: .36s; }
+.strip-item span { font-size: 1.7rem; display: block; transition: transform .3s ease; }
+.strip-item:hover span { transform: scale(1.25) rotate(-6deg); }
+.strip-item strong { display: block; font-size: 1.45rem; font-weight: 800; letter-spacing: .01em; }
+.strip-item strong .num { display: inline-block; }
 .strip-item small { color: #c9d7ff; font-size: .8rem; }
 
 /* ---------- Sections ---------- */

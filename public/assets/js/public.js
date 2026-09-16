@@ -113,4 +113,57 @@
       document.body.style.overflow = '';
     }
   }
+
+  /* Stats strip: reveal on scroll + count-up numbers */
+  var strip = document.getElementById('statsStrip');
+  if (strip) {
+    var items = strip.querySelectorAll('.strip-item');
+    var counted = false;
+
+    function countUp(el) {
+      var target = String(el.getAttribute('data-countup') || '');
+      var match = target.match(/^(\D*)([\d,]+)(.*)$/); // prefix, number, suffix
+      if (!match) return;
+      var prefix = match[1];
+      var end = parseInt(match[2].replace(/,/g, ''), 10);
+      var suffix = match[3];
+      var dur = 1400;
+      var start = null;
+
+      function frame(ts) {
+        if (start === null) start = ts;
+        var p = Math.min((ts - start) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
+        el.textContent = prefix + Math.round(end * eased).toLocaleString('en-IN') + suffix;
+        if (p < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function reveal() {
+      items.forEach(function (item) { item.classList.add('visible'); });
+      if (!counted) {
+        counted = true;
+        strip.querySelectorAll('[data-countup]').forEach(countUp);
+      }
+    }
+
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            reveal();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+      observer.observe(strip);
+      // safety: reveal anyway if not intersected within 2.5s
+      setTimeout(function () {
+        if (!counted) reveal();
+      }, 2500);
+    } else {
+      reveal();
+    }
+  }
 })();
