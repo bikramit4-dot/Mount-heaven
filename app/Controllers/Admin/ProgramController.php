@@ -17,12 +17,13 @@ class ProgramController extends AdminController
 
     public function index(): string
     {
-        [$table, $section, $viewDir, $label] = $this->context();
+        [$table, $section, $viewDir, $label, $plural] = $this->context();
         return $this->adminView("admin/items/index", [
             'rows'          => Database::fetchAll("SELECT * FROM `{$table}` ORDER BY sort_order, id"),
             'section'       => $section,
             'label'         => $label,
-            'title'         => $label,
+            'plural'        => $plural,
+            'title'         => $plural,
             'activeSection' => $section,
         ]);
     }
@@ -108,7 +109,8 @@ class ProgramController extends AdminController
         $section = $this->forced !== '' ? $this->forced : $this->guessSection();
         $table = $section === 'facilities' ? 'facilities' : 'programs';
         $label = $section === 'facilities' ? 'Facility' : 'Program';
-        return [$table, $section, 'items', $label];
+        $plural = $section === 'facilities' ? 'Facilities' : 'Programs';
+        return [$table, $section, 'items', $label, $plural];
     }
 
     private function guessSection(): string

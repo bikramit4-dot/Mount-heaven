@@ -1,10 +1,10 @@
-<?php $rows = $rows ?? []; $label = $label ?? 'Item'; $section = $section ?? 'programs'; ?>
+<?php $rows = $rows ?? []; $label = $label ?? 'Item'; $plural = $plural ?? ($label . 's'); $section = $section ?? 'programs'; ?>
 <?php if ($success = flash('success')): ?><div class="alert alert-success">✅ <?php echo e($success); ?></div><?php endif; ?>
 <?php if ($error = flash('error')): ?><div class="alert alert-error">⚠️ <?php echo e($error); ?></div><?php endif; ?>
 
 <div class="admin-panel">
   <div class="panel-top">
-    <h2><?php echo e($label); ?>s (<?php echo count($rows); ?>)</h2>
+    <h2><?php echo e($plural); ?> (<?php echo count($rows); ?>)</h2>
     <a class="btn btn-primary btn-sm" href="<?php echo url('/admin/' . $section . '/create'); ?>">➕ Add <?php echo e($label); ?></a>
   </div>
 
