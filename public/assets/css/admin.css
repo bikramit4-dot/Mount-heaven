@@ -46,7 +46,8 @@ code { background: #eef2fa; border-radius: 5px; padding: .1rem .4rem; font-size:
   display: flex; gap: .7rem; align-items: center;
   padding: 1.1rem 1.2rem; border-bottom: 1px solid #1e2b4d;
 }
-.side-logo { font-size: 1.7rem; }
+.side-logo { font-size: 1.7rem; display: flex; align-items: center; }
+.side-logo img { width: 36px; height: 36px; object-fit: contain; border-radius: 50%; background: #fff; padding: 2px; }
 .side-brand strong { display: block; color: #fff; font-size: .95rem; line-height: 1.25; }
 .side-brand small { color: #7d89ab; font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; }
 
@@ -253,7 +254,8 @@ textarea { resize: vertical; }
   background: #fff; border-radius: 16px; padding: 2.2rem 2.2rem 1.8rem;
   box-shadow: 0 24px 60px rgba(0, 0, 0, .35); text-align: center;
 }
-.auth-logo { font-size: 2.6rem; }
+.auth-logo { font-size: 2.6rem; display: flex; justify-content: center; }
+.auth-logo img { width: 76px; height: 76px; object-fit: contain; border-radius: 50%; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,.12); }
 .auth-card h1 { font-size: 1.15rem; color: var(--a-dark); margin-top: .4rem; }
 .auth-sub {
   color: var(--a-accent); font-size: .74rem; font-weight: 800; letter-spacing: .14em;

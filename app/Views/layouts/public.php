@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= e($title ?? setting('site_name')) ?> — <?= e(setting('site_tagline')) ?></title>
 <meta name="description" content="<?= e(str_limit(setting('about_short'), 160)) ?>">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
+<link rel="icon" href="<?= setting('site_logo') ? e(upload_url(setting('site_logo'))) : 'data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><text y=\'.9em\' font-size=\'90\'>🏔️</text></svg>' ?>">
 <link rel="stylesheet" href="<?= asset('css/style.css') ?>">
 </head>
 <body>
@@ -54,7 +54,9 @@
 <footer class="site-footer">
   <div class="container footer-grid">
     <div>
-      <h3>🏔️ <?= e(setting('site_name')) ?></h3>
+      <h3 class="footer-brand"><?php if (setting('site_logo')): ?>
+        <img src="<?= e(upload_url(setting('site_logo'))) ?>" alt="">
+      <?php endif; ?> <?= e(setting('site_name')) ?></h3>
       <p><?= e(str_limit(setting('about_short'), 180)) ?></p>
       <div class="socials">
         <?php if (setting('facebook_url')): ?><a href="<?= e(setting('facebook_url')) ?>" target="_blank" rel="noopener">Facebook</a><?php endif; ?>

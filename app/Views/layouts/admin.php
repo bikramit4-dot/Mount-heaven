@@ -18,7 +18,9 @@
 
   <aside class="sidebar" id="sidebar">
     <div class="side-brand">
-      <span class="side-logo">🏔️</span>
+      <span class="side-logo"><?php if (setting('site_logo')): ?>
+        <img src="<?php echo e(upload_url(setting('site_logo'))); ?>" alt="<?php echo e(setting('site_name')); ?>">
+      <?php else: ?>🏔️<?php endif; ?></span>
       <span>
         <strong><?php echo e(setting('site_name')); ?></strong>
         <small>Admin Panel</small>
