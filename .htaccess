@@ -1,0 +1,32 @@
+# ---------- Mount Heaven English School — root rules ----------
+
+# Deny direct access to sensitive directories
+RedirectMatch 403 ^/app/
+RedirectMatch 403 ^/config/
+RedirectMatch 403 ^/database/
+RedirectMatch 403 ^/storage/
+
+# Default page
+DirectoryIndex public/index.php
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Block opening hidden files (e.g. .env, .git)
+  RewriteRule (^|/)\. - [F]
+
+  # Send everything that is not a real file/folder to the front controller
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ public/index.php [L]
+</IfModule>
+
+# Security headers (Apache with mod_headers)
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Do not list directory contents
+Options -Indexes

@@ -1,0 +1,5 @@
+# Deny all direct web access (Apache)
+Require all denied
+
+# Nginx equivalent:
+# location ^~ /storage/ { deny all; }

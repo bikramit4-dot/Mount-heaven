@@ -1,0 +1,11 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Database backups (contain full data + password hashes — never commit)
+storage/backups/*.sql
+storage/backups/*.sql.gz
+
+# Local temp/logs
+*.log
+/tmp/
