@@ -16,6 +16,27 @@ class MessageAdminController extends AdminController
         ]);
     }
 
+    public function show(string $id): string
+    {
+        $message = Database::fetch('SELECT * FROM messages WHERE id = ?', [(int) $id]);
+        if (!$message) {
+            Session::flash('error', 'Message not found.');
+            return $this->redirect('/admin/messages');
+        }
+
+        // Opening a message marks it as read.
+        if (!$message['is_read']) {
+            Database::update('messages', ['is_read' => 1], (int) $id);
+            $message['is_read'] = 1;
+        }
+
+        return $this->adminView('admin/messages/show', [
+            'message'       => $message,
+            'title'         => 'Message — ' . $message['name'],
+            'activeSection' => 'messages',
+        ]);
+    }
+
     public function markRead(string $id): string
     {
         Database::update('messages', ['is_read' => 1], (int) $id);

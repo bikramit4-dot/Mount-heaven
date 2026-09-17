@@ -29,6 +29,21 @@ class AdmissionAdminController extends AdminController
         ]);
     }
 
+    public function show(string $id): string
+    {
+        $enquiry = Database::fetch('SELECT * FROM admissions_enquiries WHERE id = ?', [(int) $id]);
+        if (!$enquiry) {
+            Session::flash('error', 'Enquiry not found.');
+            return $this->redirect('/admin/admissions');
+        }
+
+        return $this->adminView('admin/admissions/show', [
+            'enquiry'       => $enquiry,
+            'title'         => 'Enquiry — ' . $enquiry['student_name'],
+            'activeSection' => 'admissions',
+        ]);
+    }
+
     public function status(string $id): string
     {
         $status = (string) ($_POST['status'] ?? '');

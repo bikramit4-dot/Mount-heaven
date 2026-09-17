@@ -15,7 +15,7 @@
     <div class="msg-card <?php echo $m['is_read'] ? 'read' : 'unread'; ?>">
       <div class="msg-head">
         <div>
-          <strong><?php echo e($m['name']); ?></strong>
+          <strong><a class="row-link" href="<?php echo url('/admin/messages/' . (int) $m['id']); ?>"><?php echo e($m['name']); ?></a></strong>
           <span class="muted"> &lt;<?php echo e($m['email']); ?>&gt;</span>
           <?php if ($m['phone']): ?><span class="muted"> · 📞 <?php echo e($m['phone']); ?></span><?php endif; ?>
           <?php if (!$m['is_read']): ?><b class="badge">new</b><?php endif; ?>
@@ -25,6 +25,7 @@
       <?php if ($m['subject']): ?><p class="msg-subject"><strong><?php echo e($m['subject']); ?></strong></p><?php endif; ?>
       <p class="msg-body"><?php echo nl2br(e($m['message'])); ?></p>
       <div class="msg-actions">
+        <a class="btn btn-sm btn-primary" href="<?php echo url('/admin/messages/' . (int) $m['id']); ?>">👁 View Details</a>
         <?php if ($m['is_read']): ?>
           <form method="post" action="<?php echo url('/admin/messages/' . (int) $m['id'] . '/unread'); ?>" class="inline-form">
             <?php echo csrf_field(); ?>

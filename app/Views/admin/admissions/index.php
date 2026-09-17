@@ -18,7 +18,7 @@
   <div class="admin-panel enquiry-card">
     <div class="enquiry-head">
       <div>
-        <h3><?php echo e($q['student_name']); ?> <span class="muted small">· Grade <?php echo e($q['grade_applying']); ?></span></h3>
+        <h3><a class="row-link" href="<?php echo url('/admin/admissions/' . (int) $q['id']); ?>"><?php echo e($q['student_name']); ?></a> <span class="muted small">· Grade <?php echo e($q['grade_applying']); ?></span></h3>
         <p class="muted small">
           <?php echo $q['status'] === 'new' ? '🆕 ' : ''; ?>
           <?php echo e(ucfirst($q['status'])); ?> · submitted <?php echo e(format_date($q['created_at'])); ?>
@@ -45,10 +45,13 @@
       <?php if ($q['message']): ?><div class="full"><strong>Message:</strong><br><?php echo nl2br(e($q['message'])); ?></div><?php endif; ?>
     </div>
 
-    <form method="post" action="<?php echo url('/admin/admissions/' . (int) $q['id'] . '/delete'); ?>" class="inline-form"
-          onsubmit="return confirm('Delete this enquiry?');">
-      <?php echo csrf_field(); ?>
-      <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-    </form>
+    <div class="enquiry-foot">
+      <a class="btn btn-sm btn-primary" href="<?php echo url('/admin/admissions/' . (int) $q['id']); ?>">👁 View Full Details</a>
+      <form method="post" action="<?php echo url('/admin/admissions/' . (int) $q['id'] . '/delete'); ?>" class="inline-form"
+            onsubmit="return confirm('Delete this enquiry?');">
+        <?php echo csrf_field(); ?>
+        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+      </form>
+    </div>
   </div>
 <?php endforeach; ?>

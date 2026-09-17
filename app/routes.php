@@ -83,9 +83,11 @@ $router->post('/admin/facilities/{id}', [App\Controllers\Admin\ProgramController
 $router->post('/admin/facilities/{id}/delete', [App\Controllers\Admin\ProgramController::class, 'facilityDestroy']);
 
 $router->get('/admin/messages', [App\Controllers\Admin\MessageAdminController::class, 'index']);
+$router->get('/admin/messages/{id}', [App\Controllers\Admin\MessageAdminController::class, 'show']);
 
 // ---------------- Admin: admission enquiries ----------------
 $router->get('/admin/admissions', [App\Controllers\Admin\AdmissionAdminController::class, 'index']);
+$router->get('/admin/admissions/{id}', [App\Controllers\Admin\AdmissionAdminController::class, 'show']);
 $router->post('/admin/admissions/{id}/status', [App\Controllers\Admin\AdmissionAdminController::class, 'status']);
 $router->post('/admin/admissions/{id}/delete', [App\Controllers\Admin\AdmissionAdminController::class, 'destroy']);
 $router->post('/admin/messages/{id}/read', [App\Controllers\Admin\MessageAdminController::class, 'markRead']);

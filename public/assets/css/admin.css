@@ -320,3 +320,36 @@ textarea { resize: vertical; }
 .enquiry-grid strong { color: var(--a-text, #222); }
 .small { font-size: .8rem; }
 .inline-form { margin-top: .3rem; }
+.enquiry-foot { display: flex; gap: .5rem; align-items: center; margin-top: .4rem; }
+
+/* ---------- Detail pages (admission enquiry / contact message) ---------- */
+.detail-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.detail-status { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+.detail-status .inline-form { margin-top: 0; }
+.detail-panel { max-width: 860px; }
+.detail-header { display: flex; gap: 1rem; align-items: center; margin-bottom: 1.4rem; }
+.detail-avatar {
+  width: 56px; height: 56px; border-radius: 50%; flex: none;
+  background: linear-gradient(140deg, var(--a-primary, #1d3fa8), #2d5cc5);
+  color: #fff; font-size: 1.5rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+.detail-header h2 { margin-bottom: .1rem; }
+.detail-section-title {
+  font-size: .8rem; text-transform: uppercase; letter-spacing: .07em;
+  color: var(--a-muted); margin: 1.4rem 0 .5rem;
+  border-bottom: 1px solid var(--a-border); padding-bottom: .35rem;
+}
+.detail-table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.detail-table th {
+  text-align: left; vertical-align: top; white-space: nowrap;
+  width: 190px; padding: .5rem .8rem .5rem 0; color: var(--a-muted);
+  font-weight: 600; font-size: .84rem;
+}
+.detail-table td { padding: .5rem 0; border-bottom: 1px dashed var(--a-border); }
+.detail-table tr:last-child td { border-bottom: 0; }
+.detail-message {
+  background: var(--a-bg, #f6f7fb); border-radius: 10px; padding: 1rem 1.2rem;
+  font-size: .94rem; line-height: 1.65; border-left: 4px solid var(--a-accent);
+}
+.detail-actions { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1.4rem; }
