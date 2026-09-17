@@ -80,9 +80,16 @@ if (!function_exists('url')) {
 }
 
 if (!function_exists('asset')) {
+    /**
+     * URL for a public asset, with a filemtime-based version string so
+     * browsers always pick up updated CSS/JS instead of a stale cache
+     * (e.g. `/assets/css/style.css?v=1726500000`).
+     */
     function asset(string $path): string
     {
-        return public_base() . '/assets/' . ltrim($path, '/');
+        $file = BASE_PATH . '/public/assets/' . ltrim($path, '/');
+        $version = is_file($file) ? filemtime($file) : '0';
+        return public_base() . '/assets/' . ltrim($path, '/') . '?v=' . $version;
     }
 }
 

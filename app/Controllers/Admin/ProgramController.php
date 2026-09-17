@@ -125,6 +125,10 @@ class ProgramController extends AdminController
         $v->required('title', 'Title')->max('title', 150, 'Title');
 
         $data = $v->validated();
+        // The facilities table has no `grades` column — only programs do.
+        if (($this->context()[0]) === 'facilities') {
+            unset($data['grades']);
+        }
         $data['active'] = isset($_POST['active']) ? 1 : 0;
         $data['sort_order'] = (int) ($_POST['sort_order'] ?? 0);
 

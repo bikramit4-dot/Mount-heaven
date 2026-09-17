@@ -9,6 +9,8 @@ $router->get('/academics', [App\Controllers\HomeController::class, 'academics'])
 $router->get('/admissions', [App\Controllers\HomeController::class, 'admissions']);
 $router->get('/gallery', [App\Controllers\HomeController::class, 'gallery']);
 $router->get('/notices', [App\Controllers\HomeController::class, 'notices']);
+$router->get('/notices/{id}', [App\Controllers\HomeController::class, 'noticeDetail']);
+$router->get('/events/{id}', [App\Controllers\HomeController::class, 'eventDetail']);
 $router->get('/contact', [App\Controllers\HomeController::class, 'contact']);
 $router->post('/contact', [App\Controllers\MessageController::class, 'store']);
 $router->post('/admissions/apply', [App\Controllers\AdmissionController::class, 'store']);
@@ -31,6 +33,13 @@ $router->post('/admin/sliders', [App\Controllers\Admin\SliderController::class, 
 $router->get('/admin/sliders/{id}/edit', [App\Controllers\Admin\SliderController::class, 'edit']);
 $router->post('/admin/sliders/{id}', [App\Controllers\Admin\SliderController::class, 'update']);
 $router->post('/admin/sliders/{id}/delete', [App\Controllers\Admin\SliderController::class, 'destroy']);
+
+// ---------------- Admin: popup banner ----------------
+$router->get('/admin/popup', [App\Controllers\Admin\PopupController::class, 'index']);
+$router->post('/admin/popup', [App\Controllers\Admin\PopupController::class, 'store']);
+$router->post('/admin/popup/{id}', [App\Controllers\Admin\PopupController::class, 'update']);
+$router->post('/admin/popup/{id}/toggle', [App\Controllers\Admin\PopupController::class, 'toggle']);
+$router->post('/admin/popup/{id}/delete', [App\Controllers\Admin\PopupController::class, 'destroy']);
 
 $router->get('/admin/teachers', [App\Controllers\Admin\TeacherController::class, 'index']);
 $router->get('/admin/teachers/create', [App\Controllers\Admin\TeacherController::class, 'create']);

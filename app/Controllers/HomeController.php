@@ -16,6 +16,9 @@ class HomeController extends Controller
             'events'    => Database::fetchAll('SELECT * FROM events WHERE event_date >= CURDATE() ORDER BY event_date LIMIT 3'),
             'programs'  => Database::fetchAll('SELECT * FROM programs WHERE active = 1 ORDER BY sort_order, id LIMIT 4'),
             'facilities'=> Database::fetchAll('SELECT * FROM facilities WHERE active = 1 ORDER BY sort_order, id LIMIT 6'),
+            'popupBanner' => Database::fetch(
+                'SELECT * FROM popup_banners WHERE active = 1 ORDER BY id DESC LIMIT 1'
+            ),
         ]);
     }
 
@@ -65,6 +68,38 @@ class HomeController extends Controller
         return $this->view('public/notices', [
             'notices' => Database::fetchAll('SELECT * FROM notices ORDER BY is_pinned DESC, published_at DESC'),
             'events'  => Database::fetchAll('SELECT * FROM events ORDER BY event_date DESC'),
+        ]);
+    }
+
+    public function noticeDetail(string $id): string
+    {
+        $notice = Database::fetch('SELECT * FROM notices WHERE id = ?', [(int) $id]);
+        if (!$notice) {
+            return abort_page(404);
+        }
+
+        return $this->view('public/notice-detail', [
+            'notice'  => $notice,
+            'notices' => Database::fetchAll(
+                'SELECT * FROM notices WHERE id <> ? ORDER BY is_pinned DESC, published_at DESC LIMIT 5',
+                [(int) $id]
+            ),
+        ]);
+    }
+
+    public function eventDetail(string $id): string
+    {
+        $event = Database::fetch('SELECT * FROM events WHERE id = ?', [(int) $id]);
+        if (!$event) {
+            return abort_page(404);
+        }
+
+        return $this->view('public/event-detail', [
+            'event'  => $event,
+            'events' => Database::fetchAll(
+                'SELECT * FROM events WHERE id <> ? AND event_date >= CURDATE() ORDER BY event_date LIMIT 5',
+                [(int) $id]
+            ),
         ]);
     }
 

@@ -39,6 +39,9 @@
       <a href="<?php echo url('/admin/sliders'); ?>" class="<?php echo $activeSection === 'sliders' ? 'active' : ''; ?>">
         <span>🖼️</span> Home Sliders
       </a>
+      <a href="<?php echo url('/admin/popup'); ?>" class="<?php echo $activeSection === 'popup' ? 'active' : ''; ?>">
+        <span>🔔</span> Popup Banner
+      </a>
       <a href="<?php echo url('/admin/notices'); ?>" class="<?php echo $activeSection === 'notices' ? 'active' : ''; ?>">
         <span>📢</span> Notices
       </a>

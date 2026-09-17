@@ -1,4 +1,4 @@
-<?php $rows = $rows ?? []; $label = $label ?? 'Item'; $plural = $plural ?? ($label . 's'); $section = $section ?? 'programs'; ?>
+<?php $rows = $rows ?? []; $label = $label ?? 'Item'; $plural = $plural ?? ($label . 's'); $section = $section ?? 'programs'; $hasGrades = ($section !== 'facilities'); ?>
 <?php if ($success = flash('success')): ?><div class="alert alert-success">✅ <?php echo e($success); ?></div><?php endif; ?>
 <?php if ($error = flash('error')): ?><div class="alert alert-error">⚠️ <?php echo e($error); ?></div><?php endif; ?>
 
@@ -13,14 +13,14 @@
   <?php endif; ?>
 
   <table class="table">
-    <thead><tr><th>#</th><th>Icon</th><th>Title</th><th>Grades / Icon code</th><th>Order</th><th>Active</th><th class="th-actions">Actions</th></tr></thead>
+    <thead><tr><th>#</th><th>Icon</th><?php if ($hasGrades): ?><th>Grades</th><?php endif; ?><th>Title</th><th>Order</th><th>Active</th><th class="th-actions">Actions</th></tr></thead>
     <tbody>
       <?php foreach ($rows as $r): ?>
         <tr>
           <td><?php echo (int) $r['id']; ?></td>
           <td><span class="big-ico"><?php echo e($r['icon']); ?></span></td>
+          <?php if ($hasGrades): ?><td class="muted"><?php echo e($r['grades'] ?? ''); ?></td><?php endif; ?>
           <td><strong><?php echo e($r['title']); ?></strong></td>
-          <td class="muted"><?php echo e($r['grades']); ?></td>
           <td><?php echo (int) $r['sort_order']; ?></td>
           <td><?php echo $r['active'] ? '<span class="pill pill-green">Yes</span>' : '<span class="pill pill-gray">No</span>'; ?></td>
           <td class="row-actions">

@@ -1,4 +1,4 @@
-<?php $item = $item ?? null; $errors = $errors ?? []; $old = $old ?? []; $label = $label ?? 'Item'; $section = $section ?? 'programs'; ?>
+<?php $item = $item ?? null; $errors = $errors ?? []; $old = $old ?? []; $label = $label ?? 'Item'; $section = $section ?? 'programs'; $hasGrades = ($section !== 'facilities'); ?>
 <?php if ($error = flash('error')): ?><div class="alert alert-error">⚠️ <?php echo e($error); ?></div><?php endif; ?>
 <?php if (isset($errors['title'])): ?><div class="alert alert-error">⚠️ <?php echo e($errors['title'][0]); ?></div><?php endif; ?>
 
@@ -14,10 +14,12 @@
       <input type="text" id="title" name="title" required value="<?php echo e($old['title'] ?? $item['title'] ?? ''); ?>">
     </div>
 
+    <?php if ($hasGrades): ?>
     <div class="form-group">
       <label for="grades">Grades / Subtitle</label>
       <input type="text" id="grades" name="grades" value="<?php echo e($old['grades'] ?? $item['grades'] ?? ''); ?>">
     </div>
+    <?php endif; ?>
 
     <div class="form-group">
       <label for="icon">Emoji Icon (used if no photo)</label>

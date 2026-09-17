@@ -217,6 +217,23 @@ textarea { resize: vertical; }
 .tab:hover { color: var(--a-primary); }
 .tab.is-active { background: var(--a-primary); color: #fff; }
 
+/* ---------- Site Settings ---------- */
+.settings-tabs { width: 100%; flex-wrap: wrap; }
+.settings-panel { max-width: 860px; }
+.panel-intro { color: var(--a-muted); font-size: .9rem; margin-top: .25rem; }
+.setting-row { margin-bottom: 1.35rem; }
+.help-text { display: block; color: var(--a-muted); font-size: .78rem; margin-top: .35rem; line-height: 1.45; }
+.setting-check { align-items: flex-start; background: #f7f9fd; border: 1px solid var(--a-border); border-radius: 10px; padding: .8rem .9rem; }
+.setting-check input { width: 18px; height: 18px; margin-top: .15rem; }
+.setting-check strong { display: block; font-size: .9rem; }
+.setting-check small { display: block; color: var(--a-muted); font-size: .78rem; line-height: 1.45; }
+.thumb-lg { width: 96px; height: 96px; object-fit: contain; background: #fff; }
+.upload-controls { flex: 1; min-width: 220px; }
+.upload-controls small { display: block; color: var(--a-muted); font-size: .78rem; margin-top: .35rem; line-height: 1.45; }
+.page-intro { margin-bottom: 1.2rem; }
+.page-intro h1 { font-size: 1.35rem; color: var(--a-dark); }
+.page-intro p { color: var(--a-muted); font-size: .9rem; margin-top: .2rem; }
+
 .info-list { list-style: none; margin: .8rem 0 1.2rem; }
 .info-list li { padding: .35rem 0; font-size: .92rem; }
 .tick-list { list-style: none; margin-top: .4rem; }
