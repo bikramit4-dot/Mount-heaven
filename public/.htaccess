@@ -1,0 +1,17 @@
+# ---------- Mount Heaven — rules when the docroot IS public/ ----------
+# The application entry point lives one level above this static web root.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Block opening hidden files (e.g. .env, .git)
+  RewriteRule (^|/)\. - [F]
+
+  # Send everything that is not a real file/folder to the root front controller
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ ../index.php [L]
+</IfModule>
+
+# Do not list directory contents
+Options -Indexes

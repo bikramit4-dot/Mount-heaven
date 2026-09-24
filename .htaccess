@@ -1,13 +1,17 @@
 # ---------- Mount Heaven English School — root rules ----------
 
 # Deny direct access to sensitive directories
-RedirectMatch 403 ^/app/
-RedirectMatch 403 ^/config/
-RedirectMatch 403 ^/database/
-RedirectMatch 403 ^/storage/
+# (.*/ prefix so the rule also works when the app lives in a sub-folder,
+#  e.g. example.com/Mount-Heaven/core/ — ^/core/ would never match there)
+RedirectMatch 403 ^.*/app/
+RedirectMatch 403 ^.*/core/
+RedirectMatch 403 ^.*/config/
+RedirectMatch 403 ^.*/database/
+RedirectMatch 403 ^.*/storage/
+RedirectMatch 403 ^.*/routes/
 
 # Default page
-DirectoryIndex public/index.php
+DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -18,7 +22,11 @@ DirectoryIndex public/index.php
   # Send everything that is not a real file/folder to the front controller
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^ public/index.php [L]
+  RewriteRule ^ index.php [L]
+
+  # If the docroot is the project root, ALSO shield the real front
+  # controller (public/index.php) and the shim that loads it.
+  RewriteRule ^public/index\.php$ index.php [L]
 </IfModule>
 
 # Security headers (Apache with mod_headers)

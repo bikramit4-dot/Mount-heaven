@@ -1,6 +1,9 @@
 # OS files
 .DS_Store
 Thumbs.db
+.env
+.env.*
+!.env.example
 
 # Database backups (contain full data + password hashes — never commit)
 storage/backups/*.sql
@@ -9,3 +12,4 @@ storage/backups/*.sql.gz
 # Local temp/logs
 *.log
 /tmp/
+

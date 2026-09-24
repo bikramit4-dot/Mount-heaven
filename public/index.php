@@ -2,18 +2,38 @@
 
 declare(strict_types=1);
 
+/*
+|--------------------------------------------------------------------------
+| Mount Heaven English School — front controller
+|--------------------------------------------------------------------------
+| Everything is bootstrapped here so that ONLY this file (plus public/)
+| needs to be web-accessible. app/, core/, config/, routes/, database/
+| and storage/ all stay out of the web root.
+*/
+
 define('BASE_PATH', dirname(__DIR__));
 
-require BASE_PATH . '/app/Core/helpers.php';
+require BASE_PATH . '/core/helpers.php';
+load_env(BASE_PATH . '/.env');
 
-// Autoloader: App\Core\Foo -> app/Core/Foo.php
+// Autoloader: App\Core\Foo -> core/Foo.php and every other App\X\Y
+// (Models\Notice, Controllers\Admin\NoticeController, ...) -> app/X/Y.php
 spl_autoload_register(static function (string $class): void {
     $prefix = 'App\\';
-    if (str_starts_with($class, $prefix)) {
-        $file = BASE_PATH . '/app/' . str_replace('\\', '/', substr($class, strlen($prefix))) . '.php';
-        if (is_file($file)) {
-            require $file;
-        }
+    if (!str_starts_with($class, $prefix)) {
+        return;
+    }
+    $parts = explode('\\', substr($class, strlen($prefix)));
+    $className = array_pop($parts);
+    $directory = implode('/', array_map('strtolower', $parts));
+
+    // Core framework classes live at the project root; everything else in app/.
+    $file = $directory === 'core'
+        ? BASE_PATH . '/core/' . $className . '.php'
+        : BASE_PATH . '/app/' . $directory . '/' . $className . '.php';
+
+    if (is_file($file)) {
+        require $file;
     }
 });
 
@@ -48,6 +68,18 @@ $friendlyError = static function (string $logMessage): void {
 
 set_exception_handler(static function (Throwable $e) use ($friendlyError): void {
     $friendlyError('Uncaught exception: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+    if (config('app.debug')) {
+        // friendlyError() stays silent in debug mode on purpose — print the
+        // exception details here so a debug-mode 500 is never a blank page.
+        if (!headers_sent()) {
+            http_response_code(500);
+        }
+        echo '<pre style="padding:20px;font:13px/1.5 monospace;background:#fff6f6;border:1px solid #e33;color:#900;white-space:pre-wrap;word-break:break-word">'
+            . htmlspecialchars(get_class($e) . ': ' . $e->getMessage(), ENT_QUOTES, 'UTF-8') . "\n\n"
+            . htmlspecialchars('in ' . $e->getFile() . ':' . $e->getLine(), ENT_QUOTES, 'UTF-8') . "\n\n"
+            . htmlspecialchars($e->getTraceAsString(), ENT_QUOTES, 'UTF-8')
+            . '</pre>';
+    }
 });
 
 set_error_handler(static function (int $severity, string $message, string $file, int $line) use ($friendlyError): bool {
@@ -82,6 +114,13 @@ register_shutdown_function(static function () use ($friendlyError): void {
     }
 });
 
+// ---------- Output buffering (white-screen guard) ----------
+// Buffers any accidental stray output (a stray space in an included file,
+// a notice printed mid-request) so redirects never fail with
+// "headers already sent" — which renders as a blank white page when
+// APP_DEBUG is off. The buffer is flushed automatically at script end.
+ob_start();
+
 // ---------- Security headers ----------
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: SAMEORIGIN');
@@ -93,9 +132,10 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
 
 App\Core\Session::start();
 App\Core\Installer::ensure();
+App\Core\Migrator::run();
 
 $router = new App\Core\Router();
-require BASE_PATH . '/app/routes.php';
+require BASE_PATH . '/routes/web.php';
 
 $router->dispatch(
     $_SERVER['REQUEST_METHOD'] ?? 'GET',

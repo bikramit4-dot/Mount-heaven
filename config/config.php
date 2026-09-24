@@ -14,7 +14,7 @@ return [
         'name'     => 'Mount Heaven English School',
         'url'      => getenv('APP_URL') ?: 'http://localhost:8000',
         'timezone' => getenv('APP_TIMEZONE') ?: 'Asia/Kolkata',
-        'debug'    => (bool) (getenv('APP_DEBUG') ?: false),
+        'debug'    => filter_var(getenv('APP_DEBUG') ?: false, FILTER_VALIDATE_BOOLEAN),
         'key'      => getenv('APP_KEY') ?: 'change-this-random-32-char-secret-key',
     ],
 
@@ -29,10 +29,10 @@ return [
 
     // Used ONLY on first install to create the default administrator.
     'admin' => [
-        'name'     => 'Administrator',
-        'username' => 'admin',
-        'email'    => 'admin@mountheaven.edu',
-        'password' => 'Admin@123',
+        'name'     => getenv('ADMIN_NAME') ?: 'Administrator',
+        'username' => getenv('ADMIN_USERNAME') ?: 'admin',
+        'email'    => getenv('ADMIN_EMAIL') ?: 'admin@mountheaven.edu',
+        'password' => getenv('ADMIN_PASSWORD') ?: 'Admin@123',
     ],
 
     'uploads' => [
