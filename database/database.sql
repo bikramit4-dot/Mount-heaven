@@ -149,6 +149,21 @@ CREATE TABLE IF NOT EXISTS admissions_enquiries (
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS payments (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    student_name VARCHAR(150) NOT NULL,
+    class VARCHAR(60) NOT NULL,
+    roll_no VARCHAR(30) NOT NULL,
+    phone VARCHAR(40) NOT NULL,
+    payment_for VARCHAR(120) NULL,
+    amount DECIMAL(10,2) NULL,
+    payment_method VARCHAR(30) NOT NULL DEFAULT 'qr',
+    transaction_ref VARCHAR(80) NULL,
+    voucher VARCHAR(255) NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'pending',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ============================================================
 --  Seed data
 -- ============================================================
@@ -159,6 +174,7 @@ INSERT INTO settings (`key`, `value`) VALUES
 ('principal_photo', 'teachers/real-principal.jpg'),
 ('site_logo', 'settings/logo-20260916.png'),
 ('about_short', 'Mount Heaven English School is a co-educational English-medium institution dedicated to academic excellence, character building and holistic development of every child.'),
+('about_photo', 'sliders/real-campus.jpg'),
 ('about_history', 'Founded with a vision to provide quality English-medium education, Mount Heaven English School has grown into a trusted name known for its caring teachers, modern classrooms and consistent academic results. We believe every child carries a unique spark — our mission is to help it shine.'),
 ('about_mission', 'To nurture confident, compassionate and curious learners through value-based education, modern pedagogy and personal attention.'),
 ('about_vision', 'To be a centre of learning where every student grows into a responsible global citizen with strong moral values and a lifelong love for learning.'),
@@ -182,7 +198,10 @@ INSERT INTO settings (`key`, `value`) VALUES
 ('stat_teachers', '35+'),
 ('stat_teachers_sub', 'Expert teachers'),
 ('stat_results', '100%'),
-('stat_results_sub', 'Board results')
+('stat_results_sub', 'Board results'),
+('payment_qr_image', ''),
+('payment_instructions', 'Scan the QR code with any UPI app (GPay, PhonePe, Paytm), pay the amount, and enter the transaction reference number in the form so we can verify your payment.'),
+('payment_qr_label', 'School UPI QR Code')
 ON DUPLICATE KEY UPDATE `key` = VALUES(`key`);
 
 INSERT INTO sliders (title, subtitle, image, button_text, button_url, sort_order, active) VALUES

@@ -19,6 +19,10 @@ $router->get('/teachers/{id}', [App\Controllers\HomeController::class, 'teacherD
 
 $router->get('/contact', [App\Controllers\HomeController::class, 'contact']);
 $router->post('/contact', [App\Controllers\MessageController::class, 'store']);
+
+// ---------------- Public: fee payment ----------------
+$router->get('/payment', [App\Controllers\PaymentController::class, 'index']);
+$router->post('/payment', [App\Controllers\PaymentController::class, 'store']);
 $router->post('/admissions/apply', [App\Controllers\AdmissionController::class, 'store']);
 $router->get('/calendar/convert', [App\Controllers\CalendarController::class, 'convert']);
 $router->get('/calendar/month', [App\Controllers\CalendarController::class, 'month']);
@@ -98,6 +102,12 @@ $router->get('/admin/admissions', [App\Controllers\Admin\AdmissionAdminControlle
 $router->get('/admin/admissions/{id}', [App\Controllers\Admin\AdmissionAdminController::class, 'show']);
 $router->post('/admin/admissions/{id}/status', [App\Controllers\Admin\AdmissionAdminController::class, 'status']);
 $router->post('/admin/admissions/{id}/delete', [App\Controllers\Admin\AdmissionAdminController::class, 'destroy']);
+
+// ---------------- Admin: fee payments ----------------
+$router->get('/admin/payments', [App\Controllers\Admin\PaymentAdminController::class, 'index']);
+$router->get('/admin/payments/{id}', [App\Controllers\Admin\PaymentAdminController::class, 'show']);
+$router->post('/admin/payments/{id}/status', [App\Controllers\Admin\PaymentAdminController::class, 'status']);
+$router->post('/admin/payments/{id}/delete', [App\Controllers\Admin\PaymentAdminController::class, 'destroy']);
 $router->post('/admin/messages/{id}/read', [App\Controllers\Admin\MessageAdminController::class, 'markRead']);
 $router->post('/admin/messages/{id}/unread', [App\Controllers\Admin\MessageAdminController::class, 'markUnread']);
 $router->post('/admin/messages/{id}/delete', [App\Controllers\Admin\MessageAdminController::class, 'destroy']);

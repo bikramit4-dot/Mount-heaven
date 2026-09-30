@@ -172,6 +172,7 @@ code { background: #eef2fa; border-radius: 5px; padding: .1rem .4rem; font-size:
 .big-ico { font-size: 1.3rem; }
 
 .pill { display: inline-block; padding: .12rem .6rem; border-radius: 999px; font-size: .72rem; font-weight: 700; }
+.pill-red { background: #fde8e8; color: #a02626; }
 .pill-green { background: #e2f7ee; color: #116b4a; }
 .pill-gray { background: #eef0f5; color: #667; }
 .pill-blue { background: #e8efff; color: #1c3f8f; }
@@ -197,7 +198,7 @@ textarea { resize: vertical; }
 .check { display: flex; align-items: center; gap: .5rem; cursor: pointer; }
 .check input { width: auto; }
 .upload-row { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
-.save-bar { display: flex; gap: .8rem; align-items: center; }
+.save-bar { display: flex; gap: .8rem; align-items: center; flex-wrap: wrap; }
 
 /* ---------- Alerts ---------- */
 .alert { padding: .8rem 1.1rem; border-radius: 10px; margin-bottom: 1.1rem; font-size: .9rem; }
@@ -225,9 +226,72 @@ textarea { resize: vertical; }
 /* Long values (EMIS numbers, emails) must not blow out detail tables. */
 .detail-table td { overflow-wrap: anywhere; }
 
-/* ---------- Site Settings ---------- */
+/* ---------- Site Settings (box-wise) ---------- */
 .settings-tabs { width: 100%; flex-wrap: wrap; }
 .settings-panel { max-width: 860px; }
+.settings-quicknav {
+  position: sticky; top: 58px; z-index: 25;
+  display: flex; flex-wrap: wrap; gap: .4rem;
+  background: rgba(238, 241, 247, .96); backdrop-filter: blur(4px);
+  padding: .55rem .1rem; margin-bottom: 1.2rem;
+  border-bottom: 1px solid var(--a-border);
+}
+.settings-quicknav .chip {
+  padding: .32rem .85rem; border-radius: 999px; font-size: .8rem; font-weight: 600;
+  background: #fff; border: 1px solid var(--a-border); color: var(--a-text);
+  transition: all .18s ease;
+}
+.settings-quicknav .chip:hover { border-color: var(--a-primary); color: var(--a-primary); transform: translateY(-1px); }
+.settings-quicknav .chip.is-active { background: var(--a-primary); border-color: var(--a-primary); color: #fff; }
+.settings-boxes { display: grid; gap: 1.4rem; }
+.settings-box { margin-bottom: 0; scroll-margin-top: 130px; }
+.settings-box-icon { margin-right: .35rem; }
+.settings-box.just-saved { outline: 3px solid var(--a-success); outline-offset: 2px; transition: outline-color .3s ease; }
+
+/* Settings landing: card grid, one card per section (like a dashboard) */
+.settings-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.1rem;
+}
+.settings-card {
+  display: flex; align-items: center; gap: .9rem;
+  background: var(--a-surface);
+  border-radius: 14px;
+  padding: 1.15rem 1.2rem;
+  box-shadow: 0 2px 10px rgba(13, 23, 48, .06);
+  border: 1px solid transparent;
+  color: var(--a-dark);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.settings-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(13, 23, 48, .12);
+  border-color: var(--a-primary);
+}
+.settings-card-icon {
+  flex: none;
+  width: 52px; height: 52px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.45rem;
+  border-radius: 14px;
+  color: #fff;
+}
+/* Rotating pastel tones like the reference grid */
+.settings-card.tone-green  .settings-card-icon { background: linear-gradient(140deg, #2e7d5b, #1d5c40); }
+.settings-card.tone-orange .settings-card-icon { background: linear-gradient(140deg, #e8a04c, #d68420); }
+.settings-card.tone-blue   .settings-card-icon { background: linear-gradient(140deg, #5a79b8, #3d5a99); }
+.settings-card.tone-dark   .settings-card-icon { background: linear-gradient(140deg, #2f4a3c, #1c352a); }
+.settings-card-text { min-width: 0; flex: 1; }
+.settings-card-text strong { display: block; font-size: 1.02rem; line-height: 1.3; }
+.settings-card-text small { color: var(--a-muted); font-size: .85rem; }
+.settings-card-arrow { color: #b9c4d8; font-size: 1.15rem; transition: transform .18s ease, color .18s ease; }
+.settings-card:hover .settings-card-arrow { transform: translateX(4px); color: var(--a-primary); }
+.settings-crumb { color: var(--a-muted); font-size: 1rem; font-weight: 600; }
+.chip-back { background: #f2f5fb !important; }
+@media (max-width: 1100px) { .settings-cards { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 900px)  { .settings-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px)  { .settings-cards { grid-template-columns: 1fr; } }
 .panel-intro { color: var(--a-muted); font-size: .9rem; margin-top: .25rem; }
 .setting-row { margin-bottom: 1.35rem; }
 .help-text { display: block; color: var(--a-muted); font-size: .78rem; margin-top: .35rem; line-height: 1.45; }
@@ -302,6 +366,9 @@ textarea { resize: vertical; }
 @media (max-width: 960px) { .form-row-3 { grid-template-columns: 1fr; } }
 
 /* ---------- Responsive ---------- */
+/* Save bars: let the helper text and secondary buttons drop to a new line
+   instead of overflowing narrow screens. */
+.save-bar .muted { flex-basis: 100%; }
 @media (max-width: 960px) {
   .sidebar {
     position: fixed; z-index: 100; left: -270px; transition: left .25s ease;
@@ -374,6 +441,26 @@ textarea { resize: vertical; }
   font-weight: 600; font-size: .84rem;
 }
 .detail-table td { padding: .5rem 0; border-bottom: 1px dashed var(--a-border); }
+
+/* Payment voucher (detail page + list) */
+.voucher-thumb {
+  display: inline-block; position: relative;
+  border-radius: 10px; overflow: hidden;
+  border: 1px solid var(--a-border);
+  max-width: 220px;
+  transition: box-shadow .18s ease, transform .18s ease;
+}
+.voucher-thumb:hover { box-shadow: 0 8px 20px rgba(13,23,48,.18); transform: translateY(-2px); }
+.voucher-thumb img { display: block; width: 100%; height: auto; }
+.voucher-zoom {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  background: rgba(11, 19, 38, .72); color: #fff;
+  font-size: .72rem; text-align: center; padding: .25rem 0;
+  opacity: 0; transition: opacity .18s ease;
+}
+.voucher-thumb:hover .voucher-zoom { opacity: 1; }
+.voucher-link { font-weight: 600; }
+.pill .pill-gold { margin-left: .35rem; }
 .detail-table tr:last-child td { border-bottom: 0; }
 .detail-message {
   background: var(--a-bg, #f6f7fb); border-radius: 10px; padding: 1rem 1.2rem;

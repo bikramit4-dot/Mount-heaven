@@ -41,6 +41,7 @@
       <li><a href="<?= url('/gallery') ?>" class="<?= is_active_path('gallery') ? 'active' : '' ?>">Gallery</a></li>
       <li><a href="<?= url('/notices') ?>" class="<?= is_active_path('notices') ? 'active' : '' ?>">Notices</a></li>
       <li><a href="<?= url('/contact') ?>" class="<?= is_active_path('contact') ? 'active' : '' ?>">Contact</a></li>
+      <li><a href="<?= url('/payment') ?>" class="<?= is_active_path('payment') ? 'active' : '' ?>">Payment</a></li>
       <li><a class="btn btn-gold btn-sm" href="<?= url('/admissions') ?>">Apply Now</a></li>
     </ul>
   </nav>

@@ -9,39 +9,58 @@ use App\Core\Uploader;
 class SettingController extends AdminController
 {
     /**
-     * Editable settings, grouped into tabs.
-     * key => [Label, type, help text]
-     * Types: text, textarea, image, password, bool (checkbox)
+     * Editable settings, rendered as separate boxes on one page.
+     * Each box has its own Save button and posts back independently.
+     * key => ['icon' => …, 'title' => …, 'intro' => …, 'fields' => […]]
+     * Field types: text, textarea, image, password, bool (checkbox)
      */
     public const GROUPS = [
         'general' => [
-            'title' => '🏷️ General',
-            'intro' => 'School name, logo and the texts visitors see on the About section.',
-            'fields' => [
+            'icon'    => '🏷️',
+            'title'   => 'General',
+            'intro'   => 'School name, logo and the texts visitors see on the About section.',
+            'fields'  => [
                 'site_name'       => ['School Name', 'text', 'Appears in the browser tab, header and footer of the website.'],
                 'site_tagline'    => ['Tagline', 'text', 'Short slogan shown under the school name in the header.'],
                 'site_logo'       => ['School Logo', 'image', 'Square image works best. Shows in the header, footer and admin panel.'],
                 'about_short'     => ['About Summary (short)', 'textarea', 'A 2–3 line preview shown on the home page.'],
                 'about_history'   => ['About / History (full)', 'textarea', 'Full history text on the About page.'],
+                'about_photo'     => ['Our Story Photo', 'image', 'A school building or campus photo shown next to the “Our Story” text on the About page. A landscape photo works best.'],
                 'about_mission'   => ['Mission Statement', 'textarea', 'Shown in the Mission & Vision box on the About page.'],
                 'about_vision'    => ['Vision Statement', 'textarea', 'Shown in the Mission & Vision box on the About page.'],
                 'footer_note'     => ['Footer Text', 'text', 'Closing line in the footer. Use {year} to auto-insert the current year.'],
             ],
         ],
-        'principal' => [
-            'title' => '👤 Principal',
-            'intro' => 'The principal’s message shown on the About page.',
-            'fields' => [
-                'principal_name'        => ['Principal Name', 'text', 'Shown above the message on the About page.'],
-                'principal_designation' => ['Designation', 'text', 'e.g. “Principal, Mount Heaven English School”.'],
-                'principal_message'     => ['Principal Message', 'textarea', 'Full welcome message from the principal.'],
-                'principal_photo'       => ['Principal Photo', 'image', 'A portrait photo works best (roughly square).'],
+        'contact' => [
+            'icon'    => '📞',
+            'title'   => 'Contact Info',
+            'intro'   => 'Shown in the top bar, Contact page and footer.',
+            'fields'  => [
+                'address'      => ['Address', 'textarea', 'Full postal address of the school.'],
+                'phone'        => ['Phone Number', 'text', 'Shown as a tappable link on mobile.'],
+                'email'        => ['Email Address', 'text', 'Public email visitors can write to.'],
+                'office_hours' => ['Office Hours', 'text', 'e.g. “Mon – Sat, 8:00 AM – 3:00 PM”.'],
+                'map_location' => ['Map Search Location (optional)', 'text', 'What to show on the Contact-page map: the school name with area, a landmark, or coordinates like 28.5672, 77.2100. Leave empty to use the Address above.'],
+                'map_embed'    => ['Google Maps Embed URL (optional)', 'url', 'Advanced: open Google Maps, search the school, click Share → Embed a map, copy the link inside src="…" and paste it here. Overrides the search location.'],
+            ],
+        ],
+        'social' => [
+            'icon'    => '🌐',
+            'title'   => 'Social & Admissions',
+            'intro'   => 'Social page links and the admissions status shown on the Admissions page.',
+            'fields'  => [
+                'facebook_url'   => ['Facebook URL', 'url', 'Full link, e.g. https://facebook.com/yourschool'],
+                'instagram_url'  => ['Instagram URL', 'url', 'Full link, e.g. https://instagram.com/yourschool'],
+                'youtube_url'    => ['YouTube URL', 'url', 'Full link, e.g. https://youtube.com/@yourschool'],
+                'admission_open' => ['Admissions Open', 'bool', 'Tick to show the green “Admissions Open” badge; untick to show “Closed”.'],
+                'admission_info' => ['Admission Info Text', 'textarea', 'Extra text shown under the admissions badge.'],
             ],
         ],
         'stats' => [
-            'title' => '📊 School Stats',
-            'intro' => 'The big numbers strip on the home page. Keep values short, e.g. “800+”.',
-            'fields' => [
+            'icon'    => '📊',
+            'title'   => 'School Stats',
+            'intro'   => 'The big numbers strip on the home page and the badge on the About page. Keep values short, e.g. “800+”.',
+            'fields'  => [
                 'stat_established'     => ['Year Established', 'text', 'Big number, e.g. “Since 1959”.'],
                 'stat_established_sub' => ['Established Sub-label', 'text', 'Small text under the number, e.g. “Years of excellence”.'],
                 'stat_students'        => ['Total Students', 'text', 'Big number, e.g. “800+”.'],
@@ -52,33 +71,32 @@ class SettingController extends AdminController
                 'stat_results_sub'     => ['Results Sub-label', 'text', 'Small text under the number, e.g. “Success rate”.'],
             ],
         ],
-        'contact' => [
-            'title' => '📞 Contact Info',
-            'intro' => 'Shown in the top bar, Contact page and footer.',
-            'fields' => [
-                'address'      => ['Address', 'textarea', 'Full postal address of the school.'],
-                'phone'        => ['Phone Number', 'text', 'Shown as a tappable link on mobile.'],
-                'email'        => ['Email Address', 'text', 'Public email visitors can write to.'],
-                'office_hours' => ['Office Hours', 'text', 'e.g. “Mon – Sat, 8:00 AM – 3:00 PM”.'],
-                'map_location' => ['Map Search Location (optional)', 'text', 'What to show on the Contact-page map: the school name with area, a landmark, or coordinates like 28.5672, 77.2100. Leave empty to use the Address above.'],
-                'map_embed'    => ['Google Maps Embed URL (optional)', 'url', 'Advanced: open Google Maps, search the school, click Share → Embed a map, copy the link inside src="…" and paste it here. Overrides the search location.'],
+        'principal' => [
+            'icon'    => '👤',
+            'title'   => 'Principal',
+            'intro'   => 'The principal’s message shown on the About page.',
+            'fields'  => [
+                'principal_name'        => ['Principal Name', 'text', 'Shown above the message on the About page.'],
+                'principal_designation' => ['Designation', 'text', 'e.g. “Principal, Mount Heaven English School”.'],
+                'principal_message'     => ['Principal Message', 'textarea', 'Full welcome message from the principal.'],
+                'principal_photo'       => ['Principal Photo', 'image', 'A portrait photo works best (roughly square).'],
             ],
         ],
-        'social' => [
-            'title' => '🌐 Social & Admissions',
-            'intro' => 'Social page links and the admissions status shown on the Admissions page.',
-            'fields' => [
-                'facebook_url'   => ['Facebook URL', 'url', 'Full link, e.g. https://facebook.com/yourschool'],
-                'instagram_url'  => ['Instagram URL', 'url', 'Full link, e.g. https://instagram.com/yourschool'],
-                'youtube_url'    => ['YouTube URL', 'url', 'Full link, e.g. https://youtube.com/@yourschool'],
-                'admission_open' => ['Admissions Open', 'bool', 'Tick to show the green “Admissions Open” badge; untick to show “Closed”.'],
-                'admission_info' => ['Admission Info Text', 'textarea', 'Extra text shown under the admissions badge.'],
+        'payment' => [
+            'icon'    => '💳',
+            'title'   => 'Online Payment',
+            'intro'   => 'The QR code and payment instructions shown on the public Pay Fees page.',
+            'fields'  => [
+                'payment_qr_image'    => ['Payment QR Code Image', 'image', 'Upload the school\'s UPI/bank QR code (screenshot from your payment app). Shown on the Pay Fees page for parents to scan.'],
+                'payment_qr_label'    => ['QR Code Label', 'text', 'e.g. "School UPI QR Code" or the account name.'],
+                'payment_instructions' => ['Payment Instructions', 'textarea', 'Shown under the QR code — how to scan, which app to use, and what to do after paying.'],
             ],
         ],
         'email' => [
-            'title' => '✉️ Email Notifications',
-            'intro' => 'Get an email when someone submits the contact form or an admission enquiry.',
-            'fields' => [
+            'icon'    => '✉️',
+            'title'   => 'Email Notifications',
+            'intro'   => 'Get an email when someone submits the contact form or an admission enquiry.',
+            'fields'  => [
                 'notify_enabled' => ['Enable Notifications', 'bool', 'Master switch for all email notifications.'],
                 'notify_email'   => ['Send Notifications To', 'email', 'School inbox that receives the notifications.'],
                 'smtp_host'      => ['SMTP Host', 'text', 'e.g. smtp.gmail.com'],
@@ -93,18 +111,23 @@ class SettingController extends AdminController
 
     public function edit(): string
     {
-        $tab = $this->currentTab();
+        // No ?group= → card-grid landing page. Valid ?group= → that section only.
+        $tab = (string) ($_GET['group'] ?? '');
+        $activeTab = isset(self::GROUPS[$tab]) ? $tab : '';
 
         return $this->adminView('admin/settings', [
-            'tab'           => $tab,
             'groups'        => self::GROUPS,
             'settings'      => $this->settings(),
+            'activeTab'     => $activeTab,
             'title'         => 'Site Settings',
             'activeSection' => 'settings',
         ]);
     }
 
-    /** Save only the fields of the tab the form was submitted from. */
+    /**
+     * Save only the section (group) the form was submitted from, then
+     * re-open that same section via ?group=… so the admin stays on it.
+     */
     public function update(): string
     {
         $tab  = $this->currentTab();
@@ -116,9 +139,11 @@ class SettingController extends AdminController
                     $value = Uploader::image($key, 'settings', $_POST['_current_' . $key] ?? null);
                 } catch (\RuntimeException $e) {
                     Session::flash('error', $e->getMessage());
-                    return $this->redirect('/admin/settings?tab=' . $tab);
+                    return $this->redirect('/admin/settings?group=' . $tab);
                 }
-                $this->save($key, $value);
+                // No upload yet + no previous image → Uploader returns null.
+                // Store '' so save() keeps its string contract.
+                $this->save($key, $value ?? '');
                 continue;
             }
 
@@ -134,13 +159,14 @@ class SettingController extends AdminController
             $this->save($key, trim((string) $_POST[$key]));
         }
 
-        Session::flash('success', ucfirst($tab) . ' settings saved successfully.');
-        return $this->redirect('/admin/settings?tab=' . $tab);
+        Session::flash('success', self::GROUPS[$tab]['title'] . ' settings saved successfully.');
+        return $this->redirect('/admin/settings?group=' . $tab);
     }
 
+    /** Validate the requested group against GROUPS (also used by the edit page). */
     private function currentTab(): string
     {
-        $tab = (string) ($_GET['tab'] ?? $_POST['tab'] ?? 'general');
+        $tab = (string) ($_GET['group'] ?? $_POST['group'] ?? 'general');
 
         return isset(self::GROUPS[$tab]) ? $tab : 'general';
     }

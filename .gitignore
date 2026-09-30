@@ -9,6 +9,10 @@ Thumbs.db
 storage/backups/*.sql
 storage/backups/*.sql.gz
 
+# Parent-submitted payment vouchers (private financial documents)
+public/uploads/payments/*
+!public/uploads/payments/.gitignore
+
 # Local temp/logs
 *.log
 /tmp/

@@ -65,6 +65,58 @@ class Uploader
         return trim($folder, '/') . '/' . $name;
     }
 
+    /**
+     * Handle a payment-voucher upload: image screenshot or PDF receipt.
+     * Unlike image(), nothing is auto-deleted — vouchers are kept even when
+     * a parent re-submits, so the office never loses evidence.
+     *
+     * @throws \RuntimeException on any validation problem
+     */
+    public static function voucher(string $field, string $folder): ?string
+    {
+        if (empty($_FILES[$field]) || ($_FILES[$field]['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
+            return null;
+        }
+
+        $file = $_FILES[$field];
+
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            throw new \RuntimeException('The voucher upload failed (error code ' . $file['error'] . ').');
+        }
+
+        $max = (int) config('uploads.max_size');
+        if (($file['size'] ?? 0) > $max) {
+            throw new \RuntimeException('Voucher file is too large. Maximum size is ' . round($max / 1048576) . ' MB.');
+        }
+
+        $ext = strtolower(pathinfo((string) $file['name'], PATHINFO_EXTENSION));
+        if (!in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp', 'pdf'], true)) {
+            throw new \RuntimeException('Voucher must be an image (JPG, PNG…) or a PDF file.');
+        }
+
+        $mime = (new \finfo(FILEINFO_MIME_TYPE))->file($file['tmp_name']);
+        $allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf'];
+        if (!in_array($mime, $allowedMimes, true)) {
+            throw new \RuntimeException('The uploaded voucher is not a valid image or PDF.');
+        }
+
+        $name = date('Ymd') . '-' . bin2hex(random_bytes(8)) . '.' . $ext;
+        $dir  = BASE_PATH . '/public/uploads/' . trim($folder, '/');
+
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+
+        if (!@move_uploaded_file($file['tmp_name'], $dir . '/' . $name)) {
+            throw new \RuntimeException(
+                'Could not save the uploaded voucher — the server cannot write to public/uploads.'
+            );
+        }
+        @chmod($dir . '/' . $name, 0644);
+
+        return trim($folder, '/') . '/' . $name;
+    }
+
     /** Delete an uploaded file safely (path traversal protected). */
     public static function delete(string $relative): void
     {

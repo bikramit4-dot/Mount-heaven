@@ -31,6 +31,12 @@
     </div>
 
     <aside class="about-badge reveal delay-1">
+      <div class="about-story-photo">
+        <?php if (setting('about_photo')): ?>
+          <img src="<?= e(upload_url(setting('about_photo'))) ?>" alt="<?= e(setting('site_name')) ?> campus"
+               loading="lazy" onerror="this.remove()">
+        <?php endif; ?>
+      </div>
       <span class="about-badge-icon">🏔️</span>
       <strong><?= e(setting('stat_established', 'Since 1959')) ?></strong>
       <small><?= e(setting('stat_established_sub', 'Years of excellence')) ?></small>

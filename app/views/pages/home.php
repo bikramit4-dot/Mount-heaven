@@ -33,10 +33,10 @@
 <!-- School stats strip -->
 <section class="strip" id="statsStrip">
   <div class="container strip-grid">
-    <div class="strip-item"><span>🏔️</span><strong><?= e(setting('stat_established', 'Since 1959')) ?></strong><small><?= e(setting('stat_established_sub', 'Years of excellence')) ?></small></div>
-    <div class="strip-item"><span>🎒</span><strong><span class="num" data-countup="<?= e(setting('stat_students', '800+')) ?>"><?= e(setting('stat_students', '800+')) ?></span></strong><small><?= e(setting('stat_students_sub', 'Happy students')) ?></small></div>
-    <div class="strip-item"><span>👩‍🏫</span><strong><span class="num" data-countup="<?= e(setting('stat_teachers', '35+')) ?>"><?= e(setting('stat_teachers', '35+')) ?></span></strong><small><?= e(setting('stat_teachers_sub', 'Expert teachers')) ?></small></div>
-    <div class="strip-item"><span>🏆</span><strong><span class="num" data-countup="<?= e(setting('stat_results', '100%')) ?>"><?= e(setting('stat_results', '100%')) ?></span></strong><small><?= e(setting('stat_results_sub', 'Board results')) ?></small></div>
+    <div class="strip-item"><strong><?= e(setting('stat_established', 'Since 1959')) ?></strong><small><?= e(setting('stat_established_sub', 'Years of excellence')) ?></small></div>
+    <div class="strip-item"><strong><span class="num" data-countup="<?= e(setting('stat_students', '800+')) ?>"><?= e(setting('stat_students', '800+')) ?></span></strong><small><?= e(setting('stat_students_sub', 'Happy students')) ?></small></div>
+    <div class="strip-item"><strong><span class="num" data-countup="<?= e(setting('stat_teachers', '35+')) ?>"><?= e(setting('stat_teachers', '35+')) ?></span></strong><small><?= e(setting('stat_teachers_sub', 'Expert teachers')) ?></small></div>
+    <div class="strip-item"><strong><span class="num" data-countup="<?= e(setting('stat_results', '100%')) ?>"><?= e(setting('stat_results', '100%')) ?></span></strong><small><?= e(setting('stat_results_sub', 'Board results')) ?></small></div>
   </div>
 </section>
 

@@ -52,6 +52,13 @@ class Validator
         return $this;
     }
 
+    /** Add a custom (manually checked) error message for a field. */
+    public function addError(string $field, string $message): static
+    {
+        $this->errors[$field][] = $message;
+        return $this;
+    }
+
     public function fails(): bool
     {
         return $this->errors !== [];

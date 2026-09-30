@@ -69,6 +69,10 @@
         <span>💬</span> Messages
         <?php if ($unreadCount > 0): ?><b class="badge"><?php echo (int) $unreadCount; ?></b><?php endif; ?>
       </a>
+      <a href="<?php echo url('/admin/payments'); ?>" class="<?php echo $activeSection === 'payments' ? 'active' : ''; ?>">
+        <span>💳</span> Fee Payments
+        <?php $pendingCount = \App\Models\Payment::pendingCount(); if ($pendingCount > 0): ?><b class="badge"><?php echo (int) $pendingCount; ?></b><?php endif; ?>
+      </a>
 
       <p class="side-label">System</p>
       <a href="<?php echo url('/admin/backup'); ?>?tab=backup" class="side-tab <?php echo $activeSection === 'backup' && $tab === 'backup' ? 'active' : ''; ?>">
