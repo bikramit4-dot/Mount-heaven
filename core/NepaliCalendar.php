@@ -176,18 +176,51 @@ class NepaliCalendar
         return self::$yearCache[$year] = ['days' => $sum, 'cum' => $cum, 'months' => array_slice($row, 1, null, true)];
     }
 
-    /** Days since 1970-01-01 (day number) for a Gregorian date. */
+    /**
+     * Days since 1970-01-01 (day number) for a Gregorian date.
+     *
+     * Pure-PHP Gregorian → Julian Day Number (Fliegel & Van Flandern
+     * formula) — identical to PHP's ext-calendar gregoriantojd() for the
+     * proleptic Gregorian calendar. Implemented in userland so the class
+     * works on hosts where the (optional) calendar extension is disabled.
+     */
     private static function adToDayNumber(int $y, int $m, int $d): int
     {
-        // JD 2440588 == 1970-01-01 (gregoriantojd returns the JD at noon).
-        return gregoriantojd($m, $d, $y) - 2440588;
+        $a  = intdiv(14 - $m, 12);
+        $y2 = $y + 4800 - $a;
+        $m2 = $m + 12 * $a - 3;
+
+        return $d
+            + intdiv(153 * $m2 + 2, 5)
+            + 365 * $y2
+            + intdiv($y2, 4)
+            - intdiv($y2, 100)
+            + intdiv($y2, 400)
+            - 32045
+            - 2440588; // JD of 1970-01-01 (noon-based, matches gregoriantojd)
     }
 
-    /** Convert a day number back to a Gregorian date [y, m, d]. */
+    /**
+     * Convert a day number back to a Gregorian date [y, m, d].
+     * Pure-PHP JDN → Gregorian (Richards' algorithm) — the exact inverse
+     * of adToDayNumber(), no ext-calendar needed.
+     */
     private static function dayNumberToAd(int $day): array
     {
-        [$m, $d, $y] = explode('/', jdtogregorian($day + 2440588));
-        return [(int) $y, (int) $m, (int) $d];
+        $jdn = $day + 2440588;
+
+        $a  = $jdn + 32044;
+        $b  = intdiv(4 * $a + 3, 146097);
+        $c  = $a - intdiv(146097 * $b, 4);
+        $d2 = intdiv(4 * $c + 3, 1461);
+        $e  = $c - intdiv(1461 * $d2, 4);
+        $m2 = intdiv(5 * $e + 2, 153);
+
+        $dayOfMo = $e - intdiv(153 * $m2 + 2, 5) + 1;
+        $month   = $m2 + 3 - 12 * intdiv($m2, 10);
+        $year    = 100 * $b + $d2 - 4800 + intdiv($m2, 10);
+
+        return [$year, $month, $dayOfMo];
     }
 
     private static function refDayNumber(): int
