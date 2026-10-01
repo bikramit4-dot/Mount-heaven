@@ -336,7 +336,8 @@ ul { list-style: none; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .form-group { margin-bottom: 1rem; }
 label { font-weight: 600; font-size: .88rem; display: block; margin-bottom: .3rem; }
-input[type="text"], input[type="email"], input[type="password"], textarea, select {
+input[type="text"], input[type="email"], input[type="password"], input[type="date"],
+input[type="number"], input[type="tel"], textarea, select {
   width: 100%; padding: .68rem .9rem; border: 1.5px solid var(--border);
   border-radius: 9px; font: inherit; background: #fff; transition: border-color .2s;
 }
@@ -347,6 +348,13 @@ textarea { resize: vertical; }
 
 /* ---------- Paired BS ⇄ AD date fields (admission form) ---------- */
 .dob-fields { display: grid; grid-template-columns: 1.15fr .85fr; gap: .8rem; }
+.dob-field { min-width: 0; }
+.form-section-title {
+  display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap;
+  margin: 1.4rem 0 1rem; padding-top: 1.2rem; border-top: 1px dashed var(--border);
+  color: var(--primary-dark); font-weight: 800; font-size: .95rem;
+}
+.form-section-title small { color: var(--muted); font-weight: 600; font-size: .78rem; }
 .dob-sub { font-size: .74rem; color: var(--muted); font-weight: 700; letter-spacing: .03em; }
 .dob-hint { display: block; margin-top: .35rem; font-size: .78rem; color: var(--muted); }
 .dob-hint-error { color: var(--danger); }
@@ -546,6 +554,7 @@ input.is-busy { opacity: .65; }
 
 /* ---------- Month calendar widgets (AD + BS) ---------- */
 .cal-wrap { max-width: 460px; margin-inline: auto; }
+.cal-col { min-width: 0; }
 .cal-grid {
   display: grid; grid-template-columns: repeat(2, minmax(0, 440px));
   justify-content: center; gap: 1.6rem; align-items: start;
